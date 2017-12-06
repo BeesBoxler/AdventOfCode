@@ -1,5 +1,3 @@
-use std::io;
-
 fn main() {
     // How it should be done ⬇️
     //
@@ -29,10 +27,10 @@ fn main() {
                                   1643957396656672554433663832996699736895281882643863735914241497844736984873153166766371653179726489161167
                                   55224598519934598889627918883283534261513179931798591959489372165295");
     let input = input.trim();
-    calculate(input.as_bytes())
+    calculate_part_one(input.as_bytes())
 }
 
-fn calculate(bytes: &[u8]) {
+fn calculate_part_one(bytes: &[u8]) {
     let mut sum:u64 = 0;
     for (i,v) in bytes.iter().enumerate() {
         let this = v - 48;
@@ -43,6 +41,21 @@ fn calculate(bytes: &[u8]) {
             sum += this as u64;
         }
     }
-    println!("{}",sum)
+    println!("Part one: {}",sum)
 
+}
+
+fn calculate_part_two(bytes: &[u8]) {
+    let mut sum:u64 = 0;
+    for (i,v) in bytes.iter().enumerate() {
+        let this = v - 48;
+        let next_index = i + (bytes.len() / 2) % bytes.len();
+        let next = bytes[next_index] - 48;
+
+        if this == next {
+            sum += this as u64;
+        }
+    }
+
+    println!("Part two: {}", sum)
 }
