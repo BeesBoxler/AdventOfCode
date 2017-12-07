@@ -20,28 +20,52 @@ fn main() {
 
 let mut array: Vec<Vec<i32>> = Vec::new();
 let rows:Vec<&str> = input.split('\n').collect();
-for (i,v) in rows.iter().enumerate() {
+for (i,_v) in rows.iter().enumerate() {
     array.push(rows[i].split('\t').map(|s| s.parse::<i32>().ok().unwrap()).collect::<Vec<i32>>());
 };
-let mut max = 0;
-let mut min = 0;
-let mut sum = 0;
-for (i,v) in array.iter().enumerate() {
-    for (j,u) in array[i].iter().enumerate() {
-        if min == 0 {
-            min = u.clone();
-        }
-        if min > u.clone() {
-            min = u.clone();
-        }
-        if max < u.clone() {
-            max = u.clone();
+
+get_checksum(&array);
+get_divs(&array);
+
+}
+
+fn get_divs(array: &Vec<Vec<i32>>) {
+    let mut sum = 0;
+
+    for (i,_v) in array.iter().enumerate() {
+        for (j,u) in array[i].iter().enumerate(){
+            for (k,w) in array[i].iter().enumerate() {
+                if w % u == 0 && j != k{
+                    sum += w.clone() / u.clone();
+                    break
+                }
+            }
         }
     }
-    sum += max - min;
-    max = 0;
-    min = 0;
-}
-println!("{:?}", sum)
 
+
+    println!("Part two: {}" ,sum)
+}
+
+fn get_checksum(array: &Vec<Vec<i32>>) {
+    let mut max = 0;
+    let mut min = 0;
+    let mut sum = 0;
+    for (i,_v) in array.iter().enumerate() {
+        for (_j,u) in array[i].iter().enumerate() {
+            if min == 0 {
+                min = u.clone();
+            }
+            if &min > u {
+                min = u.clone();
+            }
+            if &max < u {
+                max = u.clone();
+            }
+        }
+        sum += max - min;
+        max = 0;
+        min = 0;
+    }
+    println!("Part one: {}", sum)
 }
