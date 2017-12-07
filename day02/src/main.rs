@@ -1,3 +1,5 @@
+use std::str;
+
 fn main() {
     let input = String::from("121	59	141	21	120	67	58	49	22	46	56	112	53	111	104	130
 1926	1910	760	2055	28	2242	146	1485	163	976	1842	1982	137	1387	162	789
@@ -16,11 +18,30 @@ fn main() {
 514	218	209	185	197	137	393	555	588	569	710	537	48	309	519	138
 1567	3246	4194	151	3112	903	1575	134	150	4184	3718	4077	180	4307	4097	1705");
 
-
-    for (i,v) in input.as_bytes().iter().enumerate() {
-        if v == &b'\t' {
-            
+let mut array: Vec<Vec<i32>> = Vec::new();
+let rows:Vec<&str> = input.split('\n').collect();
+for (i,v) in rows.iter().enumerate() {
+    array.push(rows[i].split('\t').map(|s| s.parse::<i32>().ok().unwrap()).collect::<Vec<i32>>());
+};
+let mut max = 0;
+let mut min = 0;
+let mut sum = 0;
+for (i,v) in array.iter().enumerate() {
+    for (j,u) in array[i].iter().enumerate() {
+        if min == 0 {
+            min = u.clone();
+        }
+        if min > u.clone() {
+            min = u.clone();
+        }
+        if max < u.clone() {
+            max = u.clone();
         }
     }
-    println!("{}", input);
+    sum += max - min;
+    max = 0;
+    min = 0;
+}
+println!("{:?}", sum)
+
 }
