@@ -1,5 +1,6 @@
 use std::io::prelude::*;
 use std::fs::File;
+use std::collections::HashMap;
 
 #[derive(Debug)]
 struct Tree {
@@ -14,7 +15,7 @@ fn main() {
     file.read_to_string(&mut input).expect("Whoops something went wrong.");
 
     let input:Vec<&str> = input.trim().split('\n').collect();
-    let mut trees: Vec<Tree> = Vec::new();
+    let mut trees: HashMap<String,Tree> = HashMap::new();
 
     for u in input {
         let buffer: Vec<&str> = u.trim().split(' ').collect();
@@ -25,21 +26,21 @@ fn main() {
             if i < 3 { continue }
             children.push(String::from(u.trim_right_matches(',')));
         }
-        trees.push(Tree{name,weight,children})
+        trees.insert(name.clone(), Tree{name,weight,children});
     }
 
-    for i in &trees {
+    for (i,_) in &trees {
         let mut found = false;
-        'find: for j in &trees {
-            for k in &j.children {
-                if k == &i.name {
+        'find: for (_,v) in &trees {
+            for k in &v.children {
+                if &k == &i {
                     found = true;
                     break 'find
                 }
             }
         }
         if !found {
-            println!("{}", i.name)
+            println!("{}", i)
         }
     }    
 }
