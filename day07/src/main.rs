@@ -33,7 +33,6 @@ fn main() {
         'find: for j in &trees {
             for k in &j.children {
                 if k == &i.name {
-                    // println!("{} : {}", k, &i.name);
                     found = true;
                     break 'find
                 }
@@ -42,8 +41,5 @@ fn main() {
         if !found {
             println!("{}", i.name)
         }
-    }
-
-    // println!("{:?}", trees);
-    
+    }    
 }
