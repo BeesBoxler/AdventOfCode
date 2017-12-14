@@ -62,27 +62,25 @@ fn main() {
 }
 
 fn match_weights(trees:&HashMap<String,Tree>, name: &str) {
-    let tree = &trees[name];
+    let mut tree = &trees[name];
     // println!("{:?}",tree);
     let weights:Vec<i32>= tree.children.iter().map(|c| get_weights(trees, c)).collect();
     for w in &weights {
         if w != &weights[0] {
-            println!("Weight mismatch: {}: {}", name, w);
-            break
-        }
-    }
-    if tree.children.len() > 0 {
-        println!(
-            "{} ({}) -> {:?}",
-            name,
-            tree.weight,
-            tree.children.iter().zip(weights).collect::<Vec<_>>()
-        );
-    } else {
-        println!("{} ({})", name, tree.weight);
-    }
-    for c in &tree.children {
-        match_weights(&trees, c);
+            if tree.children.len() > 0 {
+                println!(
+                    "{} ({}) -> {:?}",
+                    name,
+                    tree.weight,
+                    tree.children.iter().zip(&weights).collect::<Vec<_>>()
+                );
+            } else {
+                println!("{} ({})", name, tree.weight);
+            }
+            for c in &tree.children {
+                match_weights(&trees, c);
+            }
+                }
     }
 }
 
