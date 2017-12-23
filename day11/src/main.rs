@@ -21,6 +21,8 @@ fn main() {
 
     let input:Vec<&str> = input.split(",").collect();
 
+    let mut max = 0;
+
     for i in input {
         match i {
             "n" => {
@@ -56,12 +58,17 @@ fn main() {
 
             _ => {}
         }
+
+        if hex_distance(&zero_hero,&our_hero) > max {
+            max = hex_distance(&zero_hero,&our_hero)
+        }
     };
 
-    println!("Distance from start: {}", hex_distance(zero_hero,our_hero));
+    println!("Distance from start: {}", hex_distance(&zero_hero,&our_hero));
+    println!("Maximum distance from start: {}", max);
 
 }
 
-fn hex_distance(a:Hero, b:Hero) -> i32 {
+fn hex_distance(a:&Hero, b:&Hero) -> i32 {
     ((a.x - b.x).abs() + (a.y - b.y).abs() + (a.z - b.z).abs()) / 2
 }
